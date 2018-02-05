@@ -67,7 +67,10 @@ public class OIM {
             // Each Directory stores values in Tag objects
             //
             for (Tag tag : directory.getTags()) {
-                System.out.println(tag);
+//                if (tag.getDirectoryName().equalsIgnoreCase("GPS"))
+                System.out.printf("DIRECTORY NAME: %s *** TAG NAME: %s *** DESCRIPTION: %s \n",
+                                   tag.getDirectoryName(), tag.getTagName(), tag.getDescription()
+                                   );
             }
 
             //
