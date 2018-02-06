@@ -38,8 +38,7 @@ public class OIM {
             try {
                 
                 Metadata metadata = ImageMetadataReader.readMetadata(file);
-                
-                print(metadata, "--- OUTPUT SEPERATOR FOR EACH IMAGE\n");
+                print(metadata, "--- OUTPUT SEPARATOR FOR EACH IMAGE: " + file.getName() + "\n");
             }
             
             catch (ImageProcessingException | IOException e) { print(e); }
