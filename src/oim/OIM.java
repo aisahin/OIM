@@ -10,80 +10,70 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
-import com.google.code.geocoder.Geocoder;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-/**
- *
- * @author aliihsan.sahin
- */
+
 public class OIM {
     
-    static String filename ="src/oim/foto.jpg";
+    static String filename = "D:\\fotoToSort";
+    static final String ANSI_RED = "\u001B[31m";
 
-    public static void main(String[] args)
-    {
-        File file = new File("src/oim/foto.jpg");
-
-        // There are multiple ways to get a Metadata object for a file
-
-        //
-        // SCENARIO 1: UNKNOWN FILE TYPE
-        //
-        // This is the most generic approach.  It will transparently determine the file type and invoke the appropriate
-        // readers.  In most cases, this is the most appropriate usage.  This will handle JPEG, TIFF, GIF, BMP and RAW
-        // (CRW/CR2/NEF/RW2/ORF) files and extract whatever metadata is available and understood.
-        //
-        try {
-            
-            Metadata metadata = ImageMetadataReader.readMetadata(file);
-
-            print(metadata, "Using ImageMetadataReader\n");
-        } 
+    public static void main(String[] args) {        
         
-        catch (ImageProcessingException | IOException e) { print(e); }
+        readMetadata();
     }
-
-    /**
-     * Write all extracted values to stdout.
-     */
-    private static void print(Metadata metadata, String method)
-    {
+    
+    private static File[] getAllFiles(String path) {
+        
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+        return listOfFiles;
+    }
+    
+    private static void readMetadata() {
+        
+        for(File file : getAllFiles(filename)) {
+            
+            try {
+                
+                Metadata metadata = ImageMetadataReader.readMetadata(file);
+                
+                print(metadata, "--- OUTPUT SEPERATOR FOR EACH IMAGE\n");
+            }
+            
+            catch (ImageProcessingException | IOException e) { print(e); }
+        }
+    }
+    
+    private static void print(Metadata metadata, String method) {
+        
         System.out.println();
-        System.out.println("-------------------------------------------------");
+        System.out.println(ANSI_RED + "================================================================================");
         System.out.print(method);
-        System.out.println("-------------------------------------------------");
+        System.out.println(ANSI_RED + "================================================================================");
         System.out.println();
-
-        //
-        // A Metadata object contains multiple Directory objects
-        //
+        
         for (Directory directory : metadata.getDirectories()) {
-
-            //
-            // Each Directory stores values in Tag objects
-            //
+            
             for (Tag tag : directory.getTags()) {
-//                if (tag.getDirectoryName().equalsIgnoreCase("GPS"))
+                
+                //if (tag.getDirectoryName().equalsIgnoreCase("GPS"))
+                
                 System.out.printf("DIRECTORY NAME: %s *** TAG NAME: %s *** DESCRIPTION: %s \n",
                                    tag.getDirectoryName(), tag.getTagName(), tag.getDescription()
                                    );
             }
-
-            //
-            // Each Directory may also contain error messages
-            //
+            
             for (String error : directory.getErrors()) {
+                
                 System.err.println("ERROR: " + error);
             }
         }
     }
 
-    private static void print(Exception exception)
-    {
+    private static void print(Exception exception) {
+        
         System.err.println("EXCEPTION: " + exception);
     }
 }
