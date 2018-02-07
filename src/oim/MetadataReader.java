@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package oim;
 
 import com.drew.imaging.ImageMetadataReader;
@@ -15,13 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-import static oim.OIM.filename;
 
-/**
- *
- * @author aliihsan.sahin
- */
+
 public class MetadataReader {    
     
     private String _imageName;
@@ -33,8 +24,8 @@ public class MetadataReader {
             
     private Metadata metadata;
     private String imageName;
-    private HashMap<String, HashMap<String, String>> outerMap = new HashMap<>();
-    private HashMap<String, String> innerMap = new HashMap<>();
+    private final HashMap<String, HashMap<String, String>> outerMap = new HashMap<>();
+    private final HashMap<String, String> innerMap = new HashMap<>();
     
     // default constructor.
     public MetadataReader(){
