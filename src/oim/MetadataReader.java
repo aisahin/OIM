@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MetadataReader {    
     
@@ -23,8 +24,9 @@ public class MetadataReader {
             
     private Metadata metadata;
     private String imageName;
-    private final HashMap<String, HashMap<String, String>> outerMap = new HashMap<>();
-    private final HashMap<String, String> innerMap = new HashMap<>();
+    
+    Map<String, Map<String, String>> outerMap = new HashMap<>();
+    // Map<String, String> innerMap = new HashMap<>();
     
     // default constructor.
     public MetadataReader(){
@@ -40,11 +42,13 @@ public class MetadataReader {
     }    
     
     // read metadata for each image and add them to a HashMap of HashMap.
-    public HashMap<String, HashMap<String, String>> readAndAssignMetadata(String path) {
-        
+    public Map<String, Map<String, String>> readAndAssignMetadata(String path) {      
+
         for(File file : getAllFiles(path)) {
             
-            imageName = file.getName();
+            imageName = file.getName();            
+            
+            Map<String, String> innerMap = new HashMap<>();
             
             try {
                 
@@ -62,21 +66,27 @@ public class MetadataReader {
                         {
                             
                             innerMap.put(tag.getTagName(), tag.getDescription());
-                        }
+                        }                        
                     }
-
+                    
                     for (String error : directory.getErrors()) {
 
                         System.err.println("ERROR: " + error);
-                    }            
+                    }
                 }
+                //System.out.println("===== INNER START for image" + imageName + " =====" );
+                //innerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
+                //System.out.println("===== INNER FINISHED =====\n");
                 
+                //System.out.println("===== OUTER START =====");
                 outerMap.put(imageName, innerMap);
+                //outerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
+                //System.out.println("===== OUTER FINISHED =====\n");
             }
             
             catch (ImageProcessingException | IOException e) { print(e); }
         }
-                
+        
         outerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
         
         return outerMap;
