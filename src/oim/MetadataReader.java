@@ -66,20 +66,29 @@ public class MetadataReader {
                         {
                             
                             innerMap.put(tag.getTagName(), tag.getDescription());
-                        }                        
-                    }
+                        }
+                             
+                        }
+                  
                     
                     for (String error : directory.getErrors()) {
 
                         System.err.println("ERROR: " + error);
                     }
+                      
                 }
+                if (innerMap.isEmpty()){
+                        System.out.println(imageName + " has no Meta data");
+                        //break;
+                    }
                 //System.out.println("===== INNER START for image" + imageName + " =====" );
                 //innerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
                 //System.out.println("===== INNER FINISHED =====\n");
                 
                 //System.out.println("===== OUTER START =====");
-                outerMap.put(imageName, innerMap);
+                if(innerMap.size()>0){
+                    outerMap.put(imageName, innerMap);
+                }
                 //outerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
                 //System.out.println("===== OUTER FINISHED =====\n");
             }
@@ -87,11 +96,14 @@ public class MetadataReader {
             catch (ImageProcessingException | IOException e) { print(e); }
         }
         
-        outerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
+            outerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
+           
+      
+            
         
-        return outerMap;
-    }
-    
+            return outerMap;
+        }
+        
     // print error while reading metadata of an image.
     private static void print(Exception exception) {
         
