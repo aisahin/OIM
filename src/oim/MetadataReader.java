@@ -58,10 +58,10 @@ public class MetadataReader {
 
                     for (Tag tag : directory.getTags()) {
 
-                        if (tag.getTagName().equalsIgnoreCase("Date/Time Original") 
-                            || tag.getTagName().equalsIgnoreCase("GPS Latitude Ref")
-                            || tag.getTagName().equalsIgnoreCase("GPS Latitude")
-                            || tag.getTagName().equalsIgnoreCase("GPS Longitude Ref")
+                        if (//tag.getTagName().equalsIgnoreCase("Date/Time Original") 
+                            // || tag.getTagName().equalsIgnoreCase("GPS Latitude Ref")
+                            tag.getTagName().equalsIgnoreCase("GPS Latitude")
+                            // || tag.getTagName().equalsIgnoreCase("GPS Longitude Ref")
                             || tag.getTagName().equalsIgnoreCase("GPS Longitude"))
                         {
                             
@@ -86,8 +86,6 @@ public class MetadataReader {
             
             catch (ImageProcessingException | IOException e) { print(e); }
         }
-        
-        outerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
         
         return outerMap;
     }
