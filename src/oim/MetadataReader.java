@@ -42,7 +42,7 @@ public class MetadataReader {
     }    
     
     // read metadata for each image and add them to a HashMap of HashMap.
-    public Map<String, Map<String, String>> readAndAssignMetadata(String path) {      
+    public Map<String, Map<String, String>> readAndAssignMetadata(String path) throws IOException {      
 
         for(File file : getAllFiles(path)) {
             
@@ -66,30 +66,39 @@ public class MetadataReader {
                         {
                             
                             innerMap.put(tag.getTagName(), tag.getDescription());
-                        }                        
-                    }
+                        }
+                             
+                        }
+                  
                     
                     for (String error : directory.getErrors()) {
 
                         System.err.println("ERROR: " + error);
                     }
+                      
                 }
+                if (innerMap.isEmpty()){
+                        System.out.println(imageName + " has no Meta data");
+                        //break;
+                    }
                 //System.out.println("===== INNER START for image" + imageName + " =====" );
                 //innerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
                 //System.out.println("===== INNER FINISHED =====\n");
                 
                 //System.out.println("===== OUTER START =====");
-                outerMap.put(imageName, innerMap);
+                if(innerMap.size()>0){
+                    outerMap.put(imageName, innerMap);
+                }
                 //outerMap.forEach((key, value) -> System.out.println("--- " + key + " : " + value));
                 //System.out.println("===== OUTER FINISHED =====\n");
             }
             
-            catch (ImageProcessingException | IOException e) { print(e); }
+            catch (ImageProcessingException e) { print(e); }
         }
         
-        return outerMap;
-    }
-    
+            return outerMap;
+        }
+        
     // print error while reading metadata of an image.
     private static void print(Exception exception) {
         

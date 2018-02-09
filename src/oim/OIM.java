@@ -3,7 +3,7 @@ package oim;
 
 public class OIM {
     
-    static String filename = "D:\\fotoToSort";
+    static String filename = "C:\\Users\\yerdu\\fotoToSort";
     static MetadataReader mdr = new MetadataReader();
     static Geocode gc = new Geocode();
     static Helper helper = new Helper();
